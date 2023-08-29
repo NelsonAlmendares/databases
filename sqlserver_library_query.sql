@@ -360,13 +360,95 @@ CREATE VIEW Clientes
 GO
 SELECT * FROM Clientes;
 
--- Constraints
-ALTER TABLE client ADD 
-CONSTRAINT FK_status 
-FOREIGN KEY (id_statusClient) 
-REFERENCES [statusClient] (id_status);
+/* __________________ Constraints __________________ */
 
-ALTER TABLE sales ADD
-CONSTRAINT FK_product
-FOREIGN KEY (id_product)
-REFERENCES [products] (id_products);
+	ALTER TABLE [dbo].[client] ADD 
+	CONSTRAINT FK_status 
+	FOREIGN KEY (id_statusClient) 
+	REFERENCES [statusClient] (id_status);
+
+/* ------------------ Para la tabla de Ventas ------------------ */
+	ALTER TABLE [dbo].[sales] ADD
+	CONSTRAINT FK_product
+	FOREIGN KEY (id_product)
+	REFERENCES [dbo].[products] (id_product);
+
+	ALTER TABLE [dbo].[sales] ADD 
+	CONSTRAINT FK_payment
+	FOREIGN KEY (sale_type_payment)
+	REFERENCES [dbo].[payment] (id_typePayment);
+
+	ALTER TABLE [dbo].[sales] ADD 
+	CONSTRAINT FK_clients
+	FOREIGN KEY (id_sale_purchaser)
+	REFERENCES [dbo].[client] (id_client);
+
+	ALTER TABLE [dbo].[sales] ADD 
+	CONSTRAINT FK_employees
+	FOREIGN KEY (id_employee)
+	REFERENCES [dbo].[employee] (id_employee);
+
+	ALTER TABLE [dbo].[salesReturn] ADD 
+	CONSTRAINT FK_salesReturn
+	FOREIGN KEY (id_sale)
+	REFERENCES [dbo].[sales] (id_sales);
+
+	ALTER TABLE [dbo].[bills] ADD
+	CONSTRAINT FK_sales
+	FOREIGN KEY (id_sale)
+	REFERENCES [dbo].[sales] (id_sales);
+
+	ALTER TABLE [dbo].[bills] ADD
+	CONSTRAINT FK_client
+	FOREIGN KEY (id_client)
+	REFERENCES [dbo].[client] (id_client);
+
+	/* ------------------ Para la tabla de Empleados ------------------ */
+
+	ALTER TABLE [dbo].[employee] ADD
+	CONSTRAINT FK_typeEmployee 
+	FOREIGN KEY (id_typeEmployee)
+	REFERENCES [dbo].[typeEmployee] (id_typeEmployee);
+
+	ALTER TABLE [dbo].[employee] ADD
+	CONSTRAINT FK_statusEmployee
+	FOREIGN KEY (id_statusEmployee)
+	REFERENCES [dbo].[statusEmployee] (id_statusEmployee);
+
+	/* ------------------ Para la tabla de Productos ------------------ */
+	ALTER TABLE [dbo].[products] ADD
+	CONSTRAINT FK_brands
+	FOREIGN KEY (product_brand)
+	REFERENCES [dbo].[brand] (id_brand);
+
+	ALTER TABLE [dbo].[products] ADD
+	CONSTRAINT FK_productStatus
+	FOREIGN KEY (id_productStatus)
+	REFERENCES [dbo].[productStatus] (id_productStatus);
+
+	ALTER TABLE [dbo].[products] ADD
+	CONSTRAINT FK_distributor
+	FOREIGN KEY (id_productDistributor)
+	REFERENCES [dbo].[distributor] (id_distributor);
+
+	ALTER TABLE [dbo].[productSpecification] ADD
+	CONSTRAINT FK_productSpecification
+	FOREIGN KEY (id_product)
+	REFERENCES [dbo].[products] (id_product);
+
+	ALTER TABLE [dbo].[productSpecification] ADD
+	CONSTRAINT FK_clasification
+	FOREIGN KEY (id_clasification)
+	REFERENCES [dbo].[clasification] (id_clasification);
+
+	ALTER TABLE [dbo].[productSpecification] ADD
+	CONSTRAINT FK_gender
+	FOREIGN KEY (id_productGender)
+	REFERENCES [dbo].[gender] (id_gender);
+
+	ALTER TABLE [dbo].[products] ADD
+	CONSTRAINT FK_availability
+	FOREIGN KEY (id_availability)
+	REFERENCES [dbo].[availability] (id_availability);
+
+	ALTER TABLE [dbo].[products] ADD id_availability INT NOT NULL;
